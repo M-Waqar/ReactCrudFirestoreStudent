@@ -1,3 +1,44 @@
+# DB REF
+
+const dbRef = firebase.firestore().collection("Students");
+
+# Get All Get Method
+
+const getStudents = async () => {
+const data = await dbRef.get();
+const arr = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+setStudentList(arr);
+};
+
+# Get All Screen Shot Method
+
+const getStudents = () => {
+dbRef.onSnapshot((snapshot) => {
+const list = [];
+snapshot.forEach((doc) => {
+list.push({ ...doc.data(), id: doc.id });
+});
+setStudentList(list);
+});
+};
+
+# delete
+
+const handleDelete = (id) => {
+dbRef.doc(id).delete();
+};
+
+# Add or Update
+
+const addOrEdit = (student) => {
+if (student.id === "") {
+dbRef.add(student);
+} else {
+dbRef.doc(student.id).update(student);
+}
+setStudentMain(initial);
+};
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
